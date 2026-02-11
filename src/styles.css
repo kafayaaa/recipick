@@ -1,3 +1,36 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import "tailwindcss";
+@import 'tailwindcss';
+
+@import url('https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap');
+
+@theme {
+  --color-brand-dark-red: #bc544b;
+  --color-brand-light-red: #c8726a;
+  --color-brand-dark-yellow: #e5a93f;
+  --color-brand-light-yellow: #f6bc55;
+  --color-brand-dark-olive: #8b845a;
+  --color-brand-light-olive: #b2ac88;
+  --color-brand-white: #fcf8f1;
+  --color-brand-black: #3a3d32;
+
+  --font-bagel: 'Bagel Fat One', cursive;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+}
+
+html {
+  @apply scroll-smooth;
+}
+
+body {
+  @apply bg-brand-white text-brand-black font-jakarta;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Bagel Fat One', cursive;
+}

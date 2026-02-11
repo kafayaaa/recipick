@@ -1,0 +1,17 @@
+<section
+  id="pick"
+  class="w-full min-h-screen bg-linear-to-r from-brand-light-red to-brand-dark-red flex flex-col justify-center items-center"
+>
+  <div class="w-full max-w-7xl mx-auto flex flex-col items-center gap-15 text-brand-white">
+    <p class="text-4xl font-bold">Take or Upload Your Ingredients</p>
+    <div class="flex gap-8">
+      <app-pick-button [icon]="faCamera" text="Take"></app-pick-button>
+      <app-pick-button [icon]="faImage" text="Upload"></app-pick-button>
+    </div>
+    <div class="text-center">
+      <p class="font-bold">It only takes 3 steps:</p>
+      <p>Check Ingredients -> Pick -> Enjoy</p>
+      <p>Cooking becomes more relaxed without the constant 'what to cook' drama</p>
+    </div>
+  </div>
+</section>
