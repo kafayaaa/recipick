@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
@@ -11,4 +11,10 @@ import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 export class PickButton {
   icon = input.required<IconDefinition>();
   text = input.required<string>();
+
+  btnClick = output<void>();
+
+  onClick() {
+    this.btnClick.emit();
+  }
 }

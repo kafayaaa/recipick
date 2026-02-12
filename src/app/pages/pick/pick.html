@@ -4,10 +4,51 @@
 >
   <div class="w-full max-w-7xl mx-auto flex flex-col items-center gap-15 text-brand-white">
     <p class="text-4xl font-bold">Take or Upload Your Ingredients</p>
-    <div class="flex gap-8">
-      <app-pick-button [icon]="faCamera" text="Take"></app-pick-button>
-      <app-pick-button [icon]="faImage" text="Upload"></app-pick-button>
+    @if (!isCameraOpen() && !capturedImage()) {
+      <div class="flex gap-8">
+        <app-pick-button [icon]="faCamera" text="Take" (btnClick)="openCamera()"></app-pick-button>
+        <app-pick-button
+          [icon]="faImage"
+          text="Upload"
+          (btnClick)="fileInput.click()"
+        ></app-pick-button>
+        <input
+          #fileInput
+          type="file"
+          accept="image/*"
+          class="hidden"
+          (change)="onFileSelected($event)"
+        />
+      </div>
+    }
+    <div [class.hidden]="!isCameraOpen()" class="relative flex flex-col items-center">
+      <video
+        #videoElement
+        autoplay
+        playsinline
+        class="w-full max-w-md rounded-[2rem] border-4 border-brand-light-yellow shadow-2xl"
+      ></video>
+      <button
+        (click)="takeSnapshot()"
+        class="mt-4 bg-brand-light-yellow text-black px-8 py-3 rounded-full font-bold hover:scale-105 transition-all"
+      >
+        Take
+      </button>
     </div>
+
+    @if (capturedImage()) {
+      <div class="flex flex-col items-center gap-4">
+        <img
+          [src]="capturedImage()"
+          alt=""
+          class="w-full max-w-md rounded-[2rem] border-2 border-white/50 shadow-lg"
+        />
+        <div class="flex gap-4">
+          <button (click)="capturedImage.set(null)" class="text-white underline">Ulangi</button>
+          <button class="bg-green-500 text-white px-6 py-2 rounded-full font-bold">Gunakan</button>
+        </div>
+      </div>
+    }
     <div class="text-center">
       <p class="font-bold">It only takes 3 steps:</p>
       <p>Check Ingredients -> Pick -> Enjoy</p>
