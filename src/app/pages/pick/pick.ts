@@ -1,6 +1,8 @@
 import { Component, ElementRef, ViewChild, signal } from '@angular/core';
 import { PickButton } from '../../components/pick-button/pick-button';
 import { faCamera, faImage } from '@fortawesome/free-solid-svg-icons';
+import { GoogleGenerativeAI } from '@google/generative-ai';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-pick',
@@ -69,6 +71,44 @@ export class Pick {
       reader.readAsDataURL(file);
 
       input.value = '';
+    }
+  }
+
+  recipeResult = signal<string | null>(null);
+  isLoading = signal<boolean>(false);
+
+  async analyzeImage() {
+    const imageData = this.capturedImage();
+    if (!imageData) return;
+
+    this.isLoading.set(true);
+
+    try {
+      const genAI = new GoogleGenerativeAI(environment.geminiApiKey);
+      const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+
+      const base64Data = imageData.split(',')[1];
+
+      const prompt = `
+        Lihat gambar bahan makanan ini. Sebutkan bahan apa saja yang ada, lalu berikan 1 saran resep masakan kreatif yang bisa dibuat dari bahan tersebut beserta langkah singkatnya.
+      `;
+
+      const imagePart = {
+        inlineData: {
+          data: base64Data,
+          mimeType: 'image/png',
+        },
+      };
+
+      const result = await model.generateContent([prompt, imagePart]);
+      const response = await result.response;
+
+      this.recipeResult.set(response.text());
+    } catch (err) {
+      console.error('Gagal menganalisis gambar: ', err);
+      alert('Gagal menganalisis gambar. Silahkan coba lagi.');
+    } finally {
+      this.isLoading.set(false);
     }
   }
 }
